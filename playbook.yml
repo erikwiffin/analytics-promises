@@ -1,0 +1,71 @@
+---
+- hosts: all
+  vars:
+    user: vagrant
+  user: "{{ user }}"
+  sudo: True
+  tasks:
+    ##
+    # Apt package installation of required software.
+    #
+    - name: Update APT package cache
+      tags: common
+      apt: update_cache=yes
+
+    - name: Install packages
+      apt: pkg={{ item }} state=installed
+      tags: common
+      with_items:
+        - curl
+        - git-core
+        - vim
+
+    ##
+    # set up git
+    #
+    - name: git | Set default configs
+      template:
+        src=~/.gitconfig
+        dest=~{{ user }}/.gitconfig
+        owner={{ user }}
+        group={{ user }}
+        mode=0644
+
+    ##
+    # node.js installation (latest stable instead of Ubuntu's out-of-date one)
+    #
+    - name: Node.js | Package prerequisites for node.js
+      action: apt pkg=python-software-properties state=installed
+      tags: nodejs
+
+    - name: Node.js | Add the node.js PPA
+      action: command add-apt-repository -y ppa:chris-lea/node.js creates=/etc/apt/sources.list.d/chris-lea-node_js-precise.list
+      tags: nodejs
+
+    - name: Node.js | Update the apt cache for the new repository
+      action: apt update-cache=yes
+      tags: nodejs
+
+    - name: Node.js | Install nodejs and npm
+      action: apt pkg={{ item }} state=installed
+      tags: nodejs
+      with_items:
+        - nodejs
+
+    ##
+    # npm package installation
+    #
+    - name: npm | Install required packages
+      npm: name={{ item }} state=present global=yes
+      with_items:
+        - bower
+        - grunt-cli
+
+    ##
+    # set up vim
+    #
+    - name: vim | Push vimrc for user {{ user }}
+      get_url: url=https://raw2.github.com/amix/vimrc/master/vimrcs/basic.vim dest=/home/{{ user }}/.vimrc
+
+    - name: vim | Chown vimrc for user
+      file: path=/home/{{ user }}/.vimrc owner={{ user }} group={{ user }}
