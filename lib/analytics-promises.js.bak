@@ -1,20 +1,9 @@
-var Analytics;
-(function () {
-"use strict";
-
-var A;
-
-if ('undefined' === typeof Analytics) {
-	Analytics = {};
-
-	if ('undefined' !== typeof window) {
-		window.Analytics = A = Analytics;
-	}
-}
+var _ = require('underscore');
 
 /**
  * Private properties
  */
+var A, Analytics;
 var clientId = '32779766298-9pmjl10qg95md1opih49n77aipteuev6.apps.googleusercontent.com';
 var apiKey = 'AIzaSyBU2E4CrfY7PBjq1_FMLrbOqsxshXnGPfo';
 var scopes = 'https://www.googleapis.com/auth/analytics.readonly';
@@ -143,8 +132,7 @@ A.getProfiles = function (property) {
 A.query = function (profile, query) {
 
 	var promise = new $.Deferred();
-	_.defer(queryCoreReportingApi, promise, profile, query)
+	_.defer(queryCoreReportingApi, promise, profile, query);
 
 	return promise;
 };
-})();

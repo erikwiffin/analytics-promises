@@ -1,0 +1,27 @@
+{
+  "name": "analytics-promises",
+  "version": "0.1.0",
+  "homepage": "https://github.com/erikwiffin/analytics-promises",
+  "authors": [
+    "Erik Wiffin <erik.wiffin@gmail.com>"
+  ],
+  "description": "Google analytics with promises",
+  "main": "lib/analytics-promises.js",
+  "keywords": [
+    "google",
+    "analytics",
+    "promises"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.10",
+    "rsvp": "~3.0.4",
+    "underscore": "~1.6.0"
+  }
+}
