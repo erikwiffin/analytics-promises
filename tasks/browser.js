@@ -5,10 +5,10 @@ module.exports = function(grunt) {
 
       output.push.apply(output, f.src.map(grunt.file.read));
 
-      output.push(grunt.template.process("global.<%= pkg.namespace %> = require('<%= pkg.name %>');"));
+      output.push("global.<%= pkg.namespace %> = require('<%= pkg.name %>');");
       output.push('}(window));');
 
-      grunt.file.write(f.dest, output.join('\n'));
+      grunt.file.write(f.dest, grunt.template.process(output.join('\n')));
     });
   });
 };

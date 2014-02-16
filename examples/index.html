@@ -9,7 +9,32 @@
         <script src="../dist/analytics-promises-dependencies.js"></script>
         <script>
             function loadLib() {
-                Analytics.init();
+              Analytics.init()
+                .then(function () {
+                  return Analytics.accounts();
+                })
+                .then(function (accounts) {
+                  console.log('accounts', accounts);
+                  return Analytics.webProperties(accounts[0]);
+                })
+                .then(function (webProperties) {
+                  console.log('webProperties', webProperties);
+                  return Analytics.profiles(webProperties[0]);
+                })
+                .then(function (profiles) {
+                  console.log('profiles', profiles);
+                  return Analytics.query(profiles[0], {
+                    'start-date': '2014-01-01',
+                    'end-date': '2014-01-31',
+                    'metrics': 'ga:visitors'
+                  });
+                })
+                .then(function (response) {
+                  document.getElementById('count').textContent = response.totalsForAllResults['ga:visitors'];
+                })
+                .catch(function (error) {
+                  console.log('catch', error);
+                });
             }
         </script>
     </head>
@@ -19,7 +44,7 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+        <p>erik.wiffin.com got <span id="count">?</span> visitors in January 2014.</p>
 
         <script src="//apis.google.com/js/client.js?onload=loadLib"></script>
     </body>

@@ -2,8 +2,8 @@ module.exports = {
 
   deps: {
     src: [
+      'bower_components/rsvp/rsvp.js',
       'bower_components/underscore/underscore.js',
-      'bower_components/rvsp/rvsp.js',
       'dist/<%= pkg.name %>.js'
     ],
     dest: 'dist/<%= pkg.name %>-dependencies.js'
