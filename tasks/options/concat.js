@@ -1,35 +1,12 @@
 module.exports = {
-  amd: {
-    src: [
-      'tmp/<%= pkg.name %>/**/*.amd.js',
-      'tmp/<%= pkg.name %>.amd.js',
-    ],
-    dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.amd.js',
-    options: {
-      banner: '/**\n' +
-              '  @class <%= pkg.namespace %>\n' +
-              '  @module <%= pkg.namespace %>\n' +
-              '  */\n'
-    }
-  },
-
-  amdNoVersion: {
-    src: [
-      'tmp/<%= pkg.name %>/**/*.amd.js',
-      'tmp/<%= pkg.name %>.amd.js',
-    ],
-    dest: 'dist/<%= pkg.name %>.amd.js',
-    options: {
-      banner: '/**\n' +
-              '  @class <%= pkg.namespace %>\n' +
-              '  @module <%= pkg.namespace %>\n' +
-              '  */\n'
-    }
-  },
 
   deps: {
-    src: ['vendor/deps/*.js'],
-    dest: 'tmp/deps.amd.js'
+    src: [
+      'bower_components/underscore/underscore.js',
+      'bower_components/rvsp/rvsp.js',
+      'dist/<%= pkg.name %>.js'
+    ],
+    dest: 'dist/<%= pkg.name %>-dependencies.js'
   },
 
   browser: {

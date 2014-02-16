@@ -13,22 +13,10 @@ module.exports = function(grunt) {
   this.registerTask('build', 'Builds a distributable version of <%= cfg.name %>', [
     'clean',
     'transpile:amd',
-    'transpile:commonjs',
-    'sweetjs',
-    'concat:amd',
     'concat:browser',
     'browser:distNoVersion',
+    'concat:deps',
     'jshint',
-    'uglify:browser'
-  ]);
-
-  this.registerTask('build-release', [
-    'clean:build',
-    'transpile:amd',
-    'transpile:commonjs',
-    'concat:browser',
-    'browser:distNoVersion',
-    'concat:amdNoVersion',
     'uglify:browserNoVersion'
   ]);
 
@@ -36,7 +24,7 @@ module.exports = function(grunt) {
   config.pkg = grunt.file.readJSON('package.json');
 
   // Load custom tasks from NPM
-  grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   // init the config
   grunt.initConfig(config);

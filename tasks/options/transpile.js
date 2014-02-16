@@ -20,21 +20,5 @@ module.exports = {
       dest: 'tmp/',
       ext: '.amd.js'
     }]
-  },
-
-  commonjs: {
-    moduleName: nameFor,
-    type: 'cjs',
-    files: [{
-      expand: true,
-      cwd: 'lib/',
-      src: ['<%= pkg.name %>/**/*.js'],
-      dest: 'dist/commonjs/',
-      ext: '.js'
-    },
-    {
-      src: ['lib/<%= pkg.name %>.js'],
-      dest: 'dist/commonjs/main.js'
-    }]
   }
 };

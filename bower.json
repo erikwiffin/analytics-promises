@@ -20,5 +20,8 @@
     "bower_components",
     "vendor"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "rsvp": "~3.0.4",
+    "underscore": "~1.6.0"
+  }
 }

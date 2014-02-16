@@ -1,4 +1,6 @@
 {
+    "predef": ["_", "RSVP"],
+
     "esnext": true,
     "proto": true,
     "node" : true,
