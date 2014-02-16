@@ -10,3 +10,7 @@ node_modules
 
 # Bower modules
 bower_components
+
+# project build directories
+dist
+tmp

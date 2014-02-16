@@ -17,11 +17,8 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components"
+    "bower_components",
+    "vendor"
   ],
-  "dependencies": {
-    "requirejs": "~2.1.10",
-    "rsvp": "~3.0.4",
-    "underscore": "~1.6.0"
-  }
+  "dependencies": {}
 }
