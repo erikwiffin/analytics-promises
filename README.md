@@ -10,8 +10,8 @@ Usage
 
 analytics-promises has [RSVP.js](https://github.com/tildeio/rsvp.js) as a hard dependency. You need to include it first for analytics-promises to run.
 
-<script src="/rsvp.js"></script>
-<script src="/analytics-promises.min.js"></script>
+    <script src="rsvp.js"></script>
+    <script src="analytics-promises.min.js"></script>
 
 Or, you can use the helpfully packaged analytics-promises-dependencies.js which comes with RSVP.js built-in.
 
