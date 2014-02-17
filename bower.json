@@ -5,8 +5,8 @@
   "authors": [
     "Erik Wiffin <erik.wiffin@gmail.com>"
   ],
-  "description": "Google analytics with promises",
-  "main": "lib/analytics-promises.js",
+  "description": "Wrapper library for Google Analytics",
+  "main": "dist/analytics-promises.js",
   "keywords": [
     "google",
     "analytics",
@@ -21,7 +21,6 @@
     "vendor"
   ],
   "dependencies": {
-    "rsvp": "~3.0.4",
-    "underscore": "~1.6.0"
+    "rsvp": "~3.0.4"
   }
 }

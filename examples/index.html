@@ -9,32 +9,35 @@
         <script src="../dist/analytics-promises-dependencies.js"></script>
         <script>
             function loadLib() {
-              Analytics.init()
-                .then(function () {
-                  return Analytics.accounts();
-                })
-                .then(function (accounts) {
-                  console.log('accounts', accounts);
-                  return Analytics.webProperties(accounts[0]);
-                })
-                .then(function (webProperties) {
-                  console.log('webProperties', webProperties);
-                  return Analytics.profiles(webProperties[0]);
-                })
-                .then(function (profiles) {
-                  console.log('profiles', profiles);
-                  return Analytics.query(profiles[0], {
-                    'start-date': '2014-01-01',
-                    'end-date': '2014-01-31',
-                    'metrics': 'ga:visitors'
-                  });
-                })
-                .then(function (response) {
-                  document.getElementById('count').textContent = response.totalsForAllResults['ga:visitors'];
-                })
-                .catch(function (error) {
-                  console.log('catch', error);
+              Analytics.init({
+                'clientId': '32779766298-jg91rqpco54iv5736v4cv8dr2na2mi7b.apps.googleusercontent.com',
+                'apiKey': 'AIzaSyBU2E4CrfY7PBjq1_FMLrbOqsxshXnGPfo'
+              })
+              .then(function () {
+                return Analytics.accounts();
+              })
+              .then(function (accounts) {
+                console.log('accounts', accounts);
+                return Analytics.webProperties(accounts[0]);
+              })
+              .then(function (webProperties) {
+                console.log('webProperties', webProperties);
+                return Analytics.profiles(webProperties[0]);
+              })
+              .then(function (profiles) {
+                console.log('profiles', profiles);
+                return Analytics.query(profiles[0], {
+                  'start-date': '2014-01-01',
+                  'end-date': '2014-01-31',
+                  'metrics': 'ga:visitors'
                 });
+              })
+              .then(function (response) {
+                document.getElementById('count').textContent = response.totalsForAllResults['ga:visitors'];
+              })
+              .catch(function (error) {
+                console.log('catch', error);
+              });
             }
         </script>
     </head>
