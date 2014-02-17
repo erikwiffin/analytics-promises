@@ -64,8 +64,10 @@
     ##
     # set up vim
     #
-    - name: vim | Push vimrc for user {{ user }}
-      get_url: url=https://raw2.github.com/amix/vimrc/master/vimrcs/basic.vim dest=/home/{{ user }}/.vimrc
-
-    - name: vim | Chown vimrc for user
-      file: path=/home/{{ user }}/.vimrc owner={{ user }} group={{ user }}
+    - name: vim | Copy parent .vimrc
+      template:
+        src=~/.vimrc
+        dest=~{{ user }}/.vimrc
+        owner={{ user }}
+        group={{ user }}
+        mode=0644
