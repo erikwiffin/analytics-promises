@@ -2525,6 +2525,13 @@ define("rsvp",
   });
 global.RSVP = require('rsvp');
 }(window));
+/*!
+ * analytics-promises 0.1.0
+ * https://github.com/erikwiffin/analytics-promises
+ * 
+ * @copyright 201414, Erik Wiffin <erik.wiffin@gmail.com>
+ * @license analytics-promises may be freely distributed under the MIT license.
+ */
 (function(global) {
 /**
   @class Analytics

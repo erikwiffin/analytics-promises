@@ -1,7 +1,8 @@
 module.exports = {
   browser: {
     options: {
-      mangle: true
+      mangle: true,
+      preserveComments: 'some'
     },
     files: {
       'dist/<%= pkg.name %>-<%= pkg.version %>.min.js': ['dist/<%= pkg.name %>-<%= pkg.version %>.js']
@@ -9,7 +10,8 @@ module.exports = {
   },
   browserNoVersion: {
     options: {
-      mangle: true
+      mangle: true,
+      preserveComments: 'some'
     },
     files: {
       'dist/<%= pkg.name %>.min.js': ['dist/<%= pkg.name %>.js']
