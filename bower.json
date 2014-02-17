@@ -18,7 +18,12 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "vendor"
+    "vendor",
+    "Gruntfile.js",
+    "package.json",
+    "playbook.yml",
+    "tasks",
+    "Vagrantfile"
   ],
   "dependencies": {
     "rsvp": "~3.0.4"
