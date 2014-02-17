@@ -9,23 +9,17 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "bower": "~1.2.8",
     "grunt": "~0.4.2",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-bower-requirejs": "~0.8.4",
-    "grunt-contrib-copy": "~0.5.0",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-jshint": "~0.8.0",
-    "grunt-contrib-nodeunit": "~0.3.1",
     "grunt-contrib-uglify": "~0.3.2",
-    "grunt-contrib-qunit": "~0.4.0",
     "load-grunt-config": "~0.5.0",
     "grunt-es6-module-transpiler": "~0.5.0",
-    "grunt-contrib-watch": "~0.5.3"
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-clean": "~0.5.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "bower install && grunt build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

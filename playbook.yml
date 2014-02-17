@@ -18,7 +18,20 @@
       with_items:
         - curl
         - git-core
+        - nginx
         - vim
+
+    ##
+    # set up nginx
+    #
+    - name: nginx | Configure the default site
+      get_url:
+        url=https://raw2.github.com/erikwiffin/analytics-promises/config-files/nginx
+        dest=/etc/nginx/sites-enabled/default
+        force=yes
+
+    - name: nginx | Restart the nginx server
+      service: name=nginx state=restarted
 
     ##
     # set up git
@@ -55,19 +68,42 @@
     ##
     # npm package installation
     #
-    - name: npm | Install required packages
+    - name: npm | Install globally required packages
       npm: name={{ item }} state=present global=yes
       with_items:
         - bower
         - grunt-cli
 
+    - name: npm | Install locally required packages
+      npm: path=/vagrant
+
+    - name: bower | Install required javascript libraries
+      command: bower install
+        chdir=/vagrant
+
     ##
-    # set up vim
+    # set up my environment
     #
     - name: vim | Copy parent .vimrc
       template:
         src=~/.vimrc
         dest=~{{ user }}/.vimrc
+        owner={{ user }}
+        group={{ user }}
+        mode=0644
+
+    ##
+    # set up my environment
+    #
+    - name: bashrc | Set up the terminal
+      get_url:
+        url=https://raw2.github.com/erikwiffin/analytics-promises/config-files/bashrc
+        dest=~{{ user }}/.bashrc
+        force=yes
+
+    - name: bashrc | Chown bashrc for the user
+      file:
+        path=~{{ user }}/.bashrc
         owner={{ user }}
         group={{ user }}
         mode=0644
