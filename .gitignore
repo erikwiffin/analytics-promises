@@ -1,15 +1,2 @@
 # Ignore the vagrant directory
 .vagrant
-vagrant_ansible_inventory_default
-
-# Vim swap files
-*.swp
-
-# Node modules
-node_modules
-
-# Bower modules
-bower_components
-
-# project build directories
-tmp
