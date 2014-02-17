@@ -3,7 +3,6 @@
   vars:
     user: vagrant
   user: "{{ user }}"
-  sudo: True
   tasks:
     ##
     # Apt package installation of required software.
@@ -11,10 +10,12 @@
     - name: Update APT package cache
       tags: common
       apt: update_cache=yes
+      sudo: true
 
     - name: Install packages
       apt: pkg={{ item }} state=installed
       tags: common
+      sudo: true
       with_items:
         - curl
         - git-core
@@ -25,6 +26,7 @@
     # set up nginx
     #
     - name: nginx | Configure the default site
+      sudo: true
       get_url:
         url=https://raw2.github.com/erikwiffin/analytics-promises/config-files/nginx
         dest=/etc/nginx/sites-enabled/default
@@ -32,6 +34,7 @@
 
     - name: nginx | Restart the nginx server
       service: name=nginx state=restarted
+      sudo: true
 
     ##
     # set up git
@@ -50,18 +53,22 @@
     - name: Node.js | Package prerequisites for node.js
       action: apt pkg=python-software-properties state=installed
       tags: nodejs
+      sudo: true
 
     - name: Node.js | Add the node.js PPA
       action: command add-apt-repository -y ppa:chris-lea/node.js creates=/etc/apt/sources.list.d/chris-lea-node_js-precise.list
       tags: nodejs
+      sudo: true
 
     - name: Node.js | Update the apt cache for the new repository
       action: apt update-cache=yes
       tags: nodejs
+      sudo: true
 
     - name: Node.js | Install nodejs and npm
       action: apt pkg={{ item }} state=installed
       tags: nodejs
+      sudo: true
       with_items:
         - nodejs
 
@@ -70,6 +77,7 @@
     #
     - name: npm | Install globally required packages
       npm: name={{ item }} state=present global=yes
+      sudo: true
       with_items:
         - bower
         - grunt-cli
