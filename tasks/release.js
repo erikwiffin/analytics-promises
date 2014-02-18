@@ -39,6 +39,7 @@ module.exports = function(grunt) {
 
         // Commit the changes
         run('git add ' + _.values(files).join(' '));
+        run('git add dist/*.js');
         run('git commit -m "release ' + newVersion + '"');
         run('git tag ' + newVersion);
         run('git push origin master');
