@@ -1,5 +1,5 @@
 /*!
- * analytics-promises 0.3.0
+ * analytics-promises 0.3.1
  * https://github.com/erikwiffin/analytics-promises
  * 
  * @copyright 201414, Erik Wiffin <erik.wiffin@gmail.com>
