@@ -109,7 +109,6 @@ define("analytics-promises/auth",
 
       var promise = new RSVP.Promise(function (resolve, reject) {
         gapi.client.setApiKey(apiKey);
-        gapi.auth.setToken('notasecret');
         gapi.auth.authorize({
           client_id: clientId,
           scope: scopes,
@@ -251,10 +250,13 @@ define("analytics-promises",
     }
 
     function init(params) {
-      return checkAuth(true, params)
-        .catch(function () {
-          return checkAuth(false);
-        })
+      var immediate = true;
+
+      if (typeof arguments[1] !== "undefined") {
+        immediate = arguments[1];
+      }
+
+      return checkAuth(immediate, params)
         .then(function () {
           return loadAnalytics();
         });

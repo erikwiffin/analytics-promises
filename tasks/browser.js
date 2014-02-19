@@ -5,7 +5,7 @@ module.exports = function(grunt) {
       output.push(' * <%= pkg.name %> <%= pkg.version %>');
       output.push(' * <%= pkg.homepage %>');
       output.push(' * ');
-      output.push(" * @copyright <%= grunt.template.today('yyyyyy') %>, <%= pkg.author %>");
+      output.push(" * @copyright <%= grunt.template.today('yyyy') %>, <%= pkg.author %>");
       output.push(' * @license <%= pkg.name %> may be freely distributed under the <%= pkg.license %> license.');
       output.push(' */');
       output.push('(function(global) {');

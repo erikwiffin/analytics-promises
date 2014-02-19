@@ -37,6 +37,9 @@ module.exports = function(grunt) {
 
     grunt.log.ok('Updated json files.');
 
+    // Update the config
+    grunt.config('pkg', pkg);
+
     // Build the project
     grunt.task.run(['build', 'release-git']);
   });
