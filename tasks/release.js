@@ -45,8 +45,6 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('release-git', 'Commit these changes, push to github', function (type) {
-    // Make sure the we're running this in the correct sequence
-    grunt.task.requires('release');
     // Commit the changes
     run('git add ' + _.values(files).join(' '));
     run('git add dist/*.js');
