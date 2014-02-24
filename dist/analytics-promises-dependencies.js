@@ -2643,10 +2643,10 @@ define("analytics-promises/auth",
         }, handler);
 
         function handler(authResult) {
-          if (authResult) {
-            resolve(this);
+          if (authResult && !(authResult instanceof Error)) {
+            resolve(authResult);
           } else {
-            reject(this);
+            reject(authResult);
           }
         }
       });

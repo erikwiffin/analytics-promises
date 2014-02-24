@@ -9,9 +9,17 @@
         <script src="../dist/analytics-promises-dependencies.js"></script>
         <script>
             function loadLib() {
+              var clientId = '32779766298-jg91rqpco54iv5736v4cv8dr2na2mi7b.apps.googleusercontent.com';
+              var apiKey = 'AIzaSyBU2E4CrfY7PBjq1_FMLrbOqsxshXnGPfo';
               Analytics.init({
-                'clientId': '32779766298-jg91rqpco54iv5736v4cv8dr2na2mi7b.apps.googleusercontent.com',
-                'apiKey': 'AIzaSyBU2E4CrfY7PBjq1_FMLrbOqsxshXnGPfo'
+                'clientId': clientId,
+                'apiKey': apiKey
+              })
+              .catch(function () {
+                return Analytics.init({
+                  'clientId': clientId,
+                  'apiKey': apiKey
+                }, false);
               })
               .then(function () {
                 return Analytics.accounts();
@@ -38,7 +46,7 @@
                 document.getElementById('count').textContent = response.totalsForAllResults['ga:visitors'];
               })
               .catch(function (error) {
-                console.log('catch', error);
+                console.error(error);
               });
             }
         </script>
