@@ -2593,13 +2593,14 @@ var define, require;
 })();
 
 define("analytics-promises/accounts", 
-  ["exports"],
-  function(__exports__) {
+  ["analytics-promises/utils","exports"],
+  function(__dependency1__, __exports__) {
     "use strict";
+    var execute = __dependency1__.execute;
+
     function queryAccountsList() {
       var promise = new RSVP.Promise(function (resolve, reject) {
-        gapi.client.analytics.management.accounts.list()
-          .execute(handler);
+        execute(gapi.client.analytics.management.accounts.list(), handler);
 
         function handler(response) {
           if (!response.code) {
@@ -2657,9 +2658,11 @@ define("analytics-promises/auth",
     __exports__["default"] = checkAuth;
   });
 define("analytics-promises/core", 
-  ["exports"],
-  function(__exports__) {
+  ["analytics-promises/utils","exports"],
+  function(__dependency1__, __exports__) {
     "use strict";
+    var execute = __dependency1__.execute;
+
     function queryCoreReportingApi(profile, query) {
       var promise = new RSVP.Promise(function (resolve, reject) {
 
@@ -2669,8 +2672,7 @@ define("analytics-promises/core",
 
         query.ids = profile;
 
-        gapi.client.analytics.data.ga.get(query)
-          .execute(handler);
+        execute(gapi.client.analytics.data.ga.get(query), handler);
 
         function handler (response) {
           if (!response.code) {
@@ -2687,22 +2689,25 @@ define("analytics-promises/core",
     __exports__["default"] = queryCoreReportingApi;
   });
 define("analytics-promises/profiles", 
-  ["exports"],
-  function(__exports__) {
+  ["analytics-promises/utils","exports"],
+  function(__dependency1__, __exports__) {
     "use strict";
+    var execute = __dependency1__.execute;
+
     function queryProfilesList(webProperty) {
       var promise = new RSVP.Promise(function (resolve, reject) {
-        var accountId, webPropertyId;
+        var accountId, webPropertyId, gapiMethod;
 
         if (webProperty && webProperty.accountId && webProperty.id) {
           accountId = webProperty.accountId;
           webPropertyId = webProperty.id;
         }
 
-        gapi.client.analytics.management.profiles.list({
+        gapiMethod = gapi.client.analytics.management.profiles.list({
           'accountId': accountId,
           'webPropertyId': webPropertyId
-        }).execute(handler);
+        });
+        execute(gapiMethod, handler);
 
         function handler(response) {
           if (!response.code) {
@@ -2722,19 +2727,71 @@ define("analytics-promises/profiles",
 
     __exports__["default"] = queryProfilesList;
   });
-define("analytics-promises/webProperties", 
+define("analytics-promises/utils", 
   ["exports"],
   function(__exports__) {
     "use strict";
+    var lastCallTime = 0;
+    var callsThisSecond = 0;
+    var limit = 10;
+
+    function setRateLimit(newLimit) {
+      limit = newLimit;
+    }
+
+    __exports__.setRateLimit = setRateLimit;function execute(gapiMethod, originalHandler) {
+      var promise = new RSVP.Promise(function (resolve, reject) {
+
+        var wait;
+        var now = Math.floor(Date.now() / 1000);
+        var handler = (function () {
+          return function () {
+            originalHandler.apply(this, arguments);
+            resolve();
+          };
+        })(originalHandler);
+
+        if (now > lastCallTime) {
+          lastCallTime = now;
+          callsThisSecond = 0;
+        }
+
+        callsThisSecond++;
+
+        if (callsThisSecond > limit) {
+          wait = 1000 - (Date.now() - parseInt(now + '000', 10));
+          setTimeout(function () {
+            execute(gapiMethod, handler);
+          }, wait);
+        } else {
+          gapiMethod.execute(handler);
+        }
+      });
+
+      return promise;
+    }
+
+    __exports__.execute = execute;
+  });
+define("analytics-promises/webProperties", 
+  ["analytics-promises/utils","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var execute = __dependency1__.execute;
+
     function queryWebPropertiesList(account) {
       var promise = new RSVP.Promise(function (resolve, reject) {
+
+        var gapiMethod;
+
         if (account && account.id) {
           account = account.id;
         }
 
-        gapi.client.analytics.management.webproperties.list({
+        gapiMethod = gapi.client.analytics.management.webproperties.list({
           'accountId': account
-        }).execute(handler);
+        });
+        execute(gapiMethod, handler);
 
         function handler(response) {
           if (!response.code) {
@@ -2755,14 +2812,15 @@ define("analytics-promises/webProperties",
     __exports__["default"] = queryWebPropertiesList;
   });
 define("analytics-promises", 
-  ["analytics-promises/auth","analytics-promises/accounts","analytics-promises/webProperties","analytics-promises/profiles","analytics-promises/core","exports"],
-  function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __exports__) {
+  ["analytics-promises/auth","analytics-promises/accounts","analytics-promises/webProperties","analytics-promises/profiles","analytics-promises/core","analytics-promises/utils","exports"],
+  function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __dependency6__, __exports__) {
     "use strict";
     var checkAuth = __dependency1__["default"];
     var queryAccountsList = __dependency2__["default"];
     var queryWebPropertiesList = __dependency3__["default"];
     var queryProfilesList = __dependency4__["default"];
     var queryCoreReportingApi = __dependency5__["default"];
+    var setRateLimit = __dependency6__.setRateLimit;
 
     function loadAnalytics() {
       var promise = new RSVP.Promise(function (resolve, reject) {
@@ -2781,6 +2839,10 @@ define("analytics-promises",
 
       if (typeof arguments[1] !== "undefined") {
         immediate = arguments[1];
+      }
+
+      if (params && params.rateLimit) {
+        setRateLimit(params.rateLimit);
       }
 
       return checkAuth(immediate, params)

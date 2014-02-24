@@ -18,19 +18,35 @@
       sudo: true
       with_items:
         - curl
-        - git-core
         - nginx
+        - python-apt
+        - python-pycurl
         - vim
+
+    ##
+    # set up git
+    #
+    - name: git | Add git repo
+      apt_repository: repo='ppa:git-core/ppa'
+      tags: git
+      sudo: true
+
+    - name: git | Install packages
+      apt: pkg={{ item }} state=latest update_cache=yes
+      tags: git
+      sudo: true
+      with_items:
+        - git
 
     ##
     # set up nginx
     #
     - name: nginx | Configure the default site
       sudo: true
-      get_url:
-        url=https://raw2.github.com/erikwiffin/analytics-promises/config-files/nginx
+      lineinfile:
         dest=/etc/nginx/sites-enabled/default
-        force=yes
+        regexp="^\s*root"
+        line="  root /vagrant/;"
 
     - name: nginx | Restart the nginx server
       service: name=nginx state=restarted
@@ -56,17 +72,12 @@
       sudo: true
 
     - name: Node.js | Add the node.js PPA
-      action: command add-apt-repository -y ppa:chris-lea/node.js creates=/etc/apt/sources.list.d/chris-lea-node_js-precise.list
-      tags: nodejs
-      sudo: true
-
-    - name: Node.js | Update the apt cache for the new repository
-      action: apt update-cache=yes
+      apt_repository: repo='ppa:chris-lea/node.js'
       tags: nodejs
       sudo: true
 
     - name: Node.js | Install nodejs and npm
-      action: apt pkg={{ item }} state=installed
+      action: apt pkg={{ item }} state=latest update_cache=yes
       tags: nodejs
       sudo: true
       with_items:
